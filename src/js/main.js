@@ -5,11 +5,17 @@ owl.owlCarousel({
         0: {
           items: 1
         },
-        600: {
+        500: {
           items: 3
         },
         1000: {
-          items: 5
+          items: 2
+        },
+        1400: {
+            items: 4
+        },
+        1900: {
+            items:5
         }
     }
 });
