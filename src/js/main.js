@@ -39,3 +39,18 @@ $(".owl-carousel").on('initialized.owl.carousel changed.owl.carousel refreshed.o
         $('.owl-carousel__next').removeClass('hideBtn');
     }
 });
+
+// Action see more
+
+$('.btn-see-more').click(() => {
+    $('.content-see-more').addClass("showBtn")
+    $('.btn-see-more').addClass("hideBtn")
+    $('.btn-close-see-more').addClass("showBtn")
+})
+
+$('.btn-close-see-more')
+$('.btn-close-see-more').click(() => {
+    $('.content-see-more').removeClass("showBtn")
+    $('.btn-close-see-more').removeClass("showBtn")
+    $('.btn-see-more').removeClass("hideBtn")
+})
