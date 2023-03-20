@@ -54,3 +54,7 @@ $('.btn-close-see-more').click(() => {
     $('.btn-close-see-more').removeClass("showBtn")
     $('.btn-see-more').removeClass("hideBtn")
 })
+
+$('.icon-menu-header-right').click(() => $('.modal-menu-header-right').toggle("showBtn"))
+$('.main').click(() => $('.modal-menu-header-right').css("display", 'none'))
+
