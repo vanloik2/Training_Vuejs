@@ -1073,32 +1073,3 @@ p {
     }
 
 }
-
-@media only screen and (max-width: 1425px) {
-    .form-search-header {
-        width: auto;
-        padding: 9px 13px;
-    }
-
-    .ip-search {
-        display: none;
-    }
-
-    .menu-mid {
-        margin-left: 18%;
-    }
-
-    .header-left {
-        width: 130px;
-    }
-
-
-
-    /* .menu-mid li{
-        margin: 0 4px;
-    }
-
-    .menu-mid a{
-        margin: 0px 40px 40px;
-    } */
-}
