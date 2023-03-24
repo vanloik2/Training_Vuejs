@@ -118,13 +118,69 @@
                             </a>
                         </li>
                         <li class="avatar">
-                            <a href="">
+                            <a @click="showModalUser">
                                 <img src="./../../assets/images/logo_default.png" alt="">
                             </a>
                         </li>
                     </ul>
                 </nav>
-
+                <!-- Modal Click USer -->
+                <div v-if="modalVisiable" class="modal-user position-absolute">
+                    <nav>
+                        <ul class="ul-modal-user">
+                            <li>
+                                <a class="btn-user d-flex align-items-center justify-content-start" href="">
+                                    <img src="./../../assets/images/logo_default.png" alt="">
+                                    <p>Lợi Liễu</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center justify-content-start mt-3" href="">
+                                    <p class="icon-option-modal">
+                                        <i data-visualcompletion="css-img" class="x1b0d499 xep6ejk"
+                                            style="background-image: url(&quot;https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/Fc9yc6ni4zh.png&quot;); background-position: -147px -105px; background-size: auto; width: 20px; height: 20px; background-repeat: no-repeat; display: inline-block;"></i>
+                                    </p>
+                                    <p>Setting & Private</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center justify-content-start mt-3" href="">
+                                    <p class="icon-option-modal"><i data-visualcompletion="css-img" class="x1b0d499 xep6ejk"
+                                            style="background-image: url(&quot;https://static.xx.fbcdn.net/rsrc.php/v3/yQ/r/OLW-ypmRHuB.png&quot;); background-position: 0px -318px; background-size: auto; width: 20px; height: 20px; background-repeat: no-repeat; display: inline-block;"></i>
+                                    </p>
+                                    <p>Help & Support</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center justify-content-start mt-3" href="">
+                                    <p class="icon-option-modal">
+                                        <i data-visualcompletion="css-img" class="x1b0d499 xep6ejk"
+                                            style="background-image: url(&quot;https://static.xx.fbcdn.net/rsrc.php/v3/yf/r/J4-1YX-a9Td.png&quot;); background-position: 0px -396px; background-size: auto; width: 20px; height: 20px; background-repeat: no-repeat; display: inline-block;"></i>
+                                    </p>
+                                    <p>Display & accessibility</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center justify-content-start mt-3" href="">
+                                    <p class="icon-option-modal">
+                                        <i data-visualcompletion="css-img" class="x1b0d499 xep6ejk"
+                                            style="background-image: url(&quot;https://static.xx.fbcdn.net/rsrc.php/v3/yQ/r/OLW-ypmRHuB.png&quot;); background-position: 0px -150px; background-size: auto; width: 20px; height: 20px; background-repeat: no-repeat; display: inline-block;"></i>
+                                    </p>
+                                    <p>Give feedback</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a @click="actionLogout" class="d-flex align-items-center justify-content-start mt-3">
+                                    <p class="icon-option-modal">
+                                        <i data-visualcompletion="css-img" class="x1b0d499 xep6ejk"
+                                            style="background-image: url(&quot;https://static.xx.fbcdn.net/rsrc.php/v3/yl/r/cG-SDIF8LvU.png&quot;); background-position: 0px -700px; background-size: auto; width: 20px; height: 20px; background-repeat: no-repeat; display: inline-block;"></i>
+                                    </p>
+                                    <p>Log Out</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
         <menu-header v-if="showModal"></menu-header>
@@ -133,14 +189,29 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import MenuHeader from './../../components/modals/MenuHeader.vue'
+import { useAuthStore } from '@/stores/useAuth';
+import { useRouter } from 'vue-router';
 
-let showModal = ref(false)
+const showModal = ref(false)
+const modalVisiable = ref(false)
+const router = useRouter()
 
 const ShowModalMenu = () => {
     showModal.value = !showModal.value
 }
+
+const showModalUser = () => {
+    modalVisiable.value = !modalVisiable.value
+}
+
+const actionLogout = (() => {
+    useAuthStore().logout().then(() =>
+        router.push({name: "login", params: {}})
+    )
+})
+
 
 </script>
 
@@ -286,10 +357,50 @@ const ShowModalMenu = () => {
 .avatar {
     margin-top: 6px;
     margin-left: 3px;
+    cursor: pointer;
 }
 
 .avatar img {
     border-radius: 50%;
+}
+
+/* modal-user */
+.modal-user {
+    width: 360px;
+    height: 405px;
+    background-color: #323436;
+    padding: 10px 20px;
+    right: 5px;
+    top: 50px;
+    border-radius: 10px;
+}
+
+.btn-user img {
+    border-radius: 100%;
+    margin-right: 10px;
+}
+
+.btn-user p {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.ul-modal-user a {
+    color: #e7e4e4;
+    text-decoration: none;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.ul-modal-user a:hover{
+    border-radius: 10px;
+    background-color: #4b4b4b;
+}
+.icon-option-modal {
+    padding: 10px 10px 4px 10px;
+    background-color: #555555;
+    border-radius: 100%;
+    margin-right: 10px;
 }
 
 @media only screen and (max-width: 1425px) {
@@ -310,4 +421,5 @@ const ShowModalMenu = () => {
         margin-left: 18%;
     }
 
-}</style>
+}
+</style>

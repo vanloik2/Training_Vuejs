@@ -1,5 +1,6 @@
 <template>
     <div>
+        <p v-if="error" class="alert-error position-absolute">{{ error }}</p>
         <div class="login">
             <div class="top d-flex align-items-center justify-content-center">
                 <div class="col1">
@@ -30,21 +31,24 @@
                     </div>
                 </div>
                 <div class="col2">
-                    <form class="form">
+                    <form @submit.prevent="actionLogin" class="form">
                         <div class="form-group mb-3">
-                            <input class="form-control" type="text" placeholder="Email address or phone number">
+                            <input class="form-control" type="email" placeholder="Email address or phone number"
+                                v-model="credentials.email">
                         </div>
                         <div class="form-group mb-3">
-                            <input class="form-control" type="password" placeholder="Password">
+                            <input class="form-control" type="password" placeholder="Password"
+                                v-model="credentials.password">
                         </div>
                         <div>
-                            <button class="btn btn-primary btn-login mb-3">Login</button>
+                            <button type="submit" class="btn btn-primary btn-login mb-3">Login</button>
                         </div>
                         <div class="forgot">
                             <a href="">Forgotten password?</a>
                         </div>
                         <div>
-                            <button class="btn btn-success btn-create mt-3">Create new account</button>
+                            <button @click="redirectRegister" class="btn btn-success btn-create mt-3">Create new
+                                account</button>
                         </div>
                     </form>
                     <!-- <p class="text-foot">Create a Page for a celebrity, brand or business.</p> -->
@@ -68,8 +72,30 @@
     </div>
 </template>
 
+<script lang="ts" setup>
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/useAuth';
+import { ref } from 'vue';
+
+const credentials = ref({});
+const router = useRouter();
+const error = ref('')
+
+const actionLogin = (() => {
+    useAuthStore()
+        .login(credentials.value)
+        .then(() => router.push({ name: "home-page", params: {} }))
+        .catch((e) => {
+            error.value = e.response.data.message
+        })
+})
+
+const redirectRegister = (() => router.push({ name: "register", params: {} }))
+
+</script>
+
 <style scoped>
-.login{
+.login {
     padding-top: 100px;
     background: #f0f2f5;
     width: 100%;
@@ -77,25 +103,27 @@
     padding-bottom: 150px;
 }
 
-.col1, .col2{
+.col1,
+.col2 {
     margin: 0px 115px;
 }
-.col2{
+
+.col2 {
     margin-top: 20px;
 }
 
 
-.logo img{
+.logo img {
     width: 200px;
     margin-right: 10px;
 }
 
-.title h2{
+.title h2 {
     font-size: 30px;
     margin-bottom: 0;
 }
 
-.my-account a{
+.my-account a {
     border-radius: 10px;
     text-decoration: none;
     color: #474646;
@@ -104,17 +132,17 @@
     border: 1px solid #c9ccd1;
 }
 
-.my-account img{
+.my-account img {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
 
-.my-account p{
+.my-account p {
     text-align: center;
     margin: 8px 0;
 }
 
-.remove-account{
+.remove-account {
     position: absolute;
     top: 6px;
     left: 8px;
@@ -126,7 +154,7 @@
     cursor: pointer;
 }
 
-.remove-account:hover{
+.remove-account:hover {
     top: 0px;
     left: 0px;
     font-size: 16px;
@@ -136,7 +164,7 @@
     font-weight: bold;
 }
 
-.create-account{
+.create-account {
     margin-left: 20px;
     width: 162px;
     height: 203.69px;
@@ -146,7 +174,7 @@
     background-color: #ffffff;
 }
 
-.icon-create{
+.icon-create {
     padding-top: 70px;
     width: 160px;
     height: 160px;
@@ -155,12 +183,12 @@
     border-top-right-radius: 10px;
 }
 
-.create-account a{
+.create-account a {
     font-size: 18px;
     text-decoration: none;
 }
 
-.create-account i{
+.create-account i {
     margin-top: 100px;
     font-weight: bold;
     color: #fff;
@@ -170,60 +198,73 @@
     padding: 3px 5px;
 }
 
-.create-account p{
+.create-account p {
     background-color: #ffffff;
     margin-top: 7px;
 }
 
-.col2{
+.col2 {
     width: 396px;
     height: 340.86px;
     background-color: #ffffff;
     border-radius: 10px;
 }
 
-.form{
+.form {
     text-align: center;
     padding: 15px;
 }
 
-.form input{
+.form input {
     width: 364px;
     height: 52px;
 }
 
-.btn-login{
+.btn-login {
     width: 100%;
     height: 48px;
 }
 
-.forgot a{
+.forgot a {
     text-decoration: none;
 }
 
-.forgot a:hover{
-    text-decoration:underline;
+.forgot a:hover {
+    text-decoration: underline;
 }
 
-.forgot{
+.forgot {
     border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
     width: 100%;
 }
 
-.btn-create{
-    width: 192px;
-    height: 48px;
+.btn-create {
+    padding: 13px 25px;
     background-color: #42b72a;
     outline: none;
     border: none;
     font-weight: bold;
 }
 
-.footer{
+.alert-error {
+    top: 50px;
+    left: 36%;
+    z-index: 111;
+    padding: 20px;
+    width: 450px;
+    color: #fff;
+    font-size: 16px;
+    background-color: rgb(255, 62, 62);
+    text-align: center;
+    border-radius: 10px;
+    opacity: 0.6;
+    font-weight: bold;
+}
+
+.footer {
     text-align: center;
     padding-top: 20px;
     color: #706d6d;
 }
-
 </style>
